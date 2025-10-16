@@ -12,7 +12,7 @@
 
 <style>
   :root{
-    --red:#d40000;
+    --red:#7a1616;
     --yellow:#ffcc00;
     --text:#222;
     --muted:#666;
@@ -23,36 +23,57 @@
   a{color:var(--red);text-decoration:none}
   .container{max-width:1120px;margin:0 auto;padding:0 20px}
 
-  /* NAV */
-  .nav{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:50}
+  /* NAV — agora em vermelho Sprint */
+  .nav{
+    position:sticky;
+    top:0;
+    background:var(--red);
+    color:#fff;
+    z-index:50;
+    border:none;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+  }
   .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 
-  .brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 64px;
+  .brand{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:64px;
   }
-
-  .brand-logo {
-  height: 40px;           /* Tamanho ideal para o cabeçalho */
-  width: auto;
-  object-fit: contain;
-  display: block;
+  .brand-logo{
+    height:40px;
+    width:auto;
+    object-fit:contain;
+    display:block;
   }
-
 
   .menu{display:flex;gap:16px;align-items:center}
-  .menu a{padding:8px 10px;color:#333}
+  /* links da barra em branco para contrastar com o vermelho */
+  .nav .menu a{padding:8px 10px;color:#fff}
+  .nav .menu a:hover{color:var(--yellow)}
+
   .btn{display:inline-block;padding:12px 18px;border-radius:12px}
   .btn.primary{background:var(--red);color:#fff}
   .btn.ghost{background:#fff;border:2px solid var(--red);color:var(--red)}
+
+  /* botão “Contato” dentro da barra: branco com texto vermelho */
+  .nav .btn.primary{background:#fff;color:var(--red);font-weight:600}
+  .nav .btn.primary:hover{background:#f3f3f3}
+
   .burger{display:none;background:none;border:none;cursor:pointer}
-  .burger span{display:block;width:24px;height:3px;background:#333;margin:4px 0}
+  /* barras do burger brancas para aparecer sobre o vermelho */
+  .nav .burger span{display:block;width:24px;height:3px;background:#fff;margin:4px 0}
+
   @media (max-width:820px){
     .burger{display:block}
-    .menu{position:absolute;top:64px;left:0;right:0;background:#fff;border-bottom:1px solid #eee;flex-direction:column;display:none;padding:12px 20px}
+    /* menu drop-down no mobile: fundo branco e links escuros */
+    .menu{
+      position:absolute;top:64px;left:0;right:0;background:#fff;
+      border-bottom:1px solid #eee;flex-direction:column;display:none;padding:12px 20px
+    }
     .menu.show{display:flex}
+    .menu a{color:#333}                  /* evita links brancos sobre fundo branco */
   }
 
   /* HERO CAROUSEL (fix altura) */
@@ -64,7 +85,7 @@
   }
   .slide::after{content:""; position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55))}
-  
+
   /* conteúdo do hero (BOTÕES NO RODAPÉ) */
   .hero-content{
     position:absolute; inset:0;
@@ -156,11 +177,7 @@
     padding:10px 14px; border-radius:16px;
     box-shadow:0 6px 18px rgba(0,0,0,.12);
     max-width:260px;
-    /* SEM animação/opacity — sempre visível */
   }
-  /* se quiser esconder em telas bem pequenas, descomente:
-  @media (max-width:420px){ .wa-bubble{ display:none; } }
-  */
 </style>
 </head>
 <body>
@@ -169,7 +186,7 @@
 <header class="nav">
   <div class="container wrap">
     <a class="brand" href="#top">
-      <img src="LogoSprintRetangular.png" alt="Sprint Assessoria Esportiva" class="brand-logo">
+      <img src="LogoSprintSemFundo.png" alt="Sprint Assessoria Esportiva" class="brand-logo">
     </a>
     <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -187,21 +204,17 @@
 <!-- HERO: CARROSSEL -->
 <section id="hero" class="hero">
   <div class="slides" id="slides">
-    <!-- Ajuste os caminhos conforme sua pasta -->
     <div class="slide" style="background-image:url('BunnerMontado3.png');"></div>
     <div class="slide" style="background-image:url('BunnerMontado3.png');"></div>
     <div class="slide" style="background-image:url('BunnerMontado3.png');"></div>
   </div>
 
-  <!-- Mantém H1 para SEO sem aparecer visualmente -->
   <h1 class="visually-hidden">Sprint Assessoria Esportiva</h1>
 
-  <!-- LOGO flutuante com fundo transparente -->
   <div class="hero-logo" aria-hidden="true">
     <img src="LogoSprintSemFundo.png" alt="">
   </div>
 
-  <!-- CTAs FIXOS NA BASE -->
   <div class="hero-content">
     <div class="hero-ctas">
       <a class="btn primary" href="#contato">Quero treinar com a Sprint</a>
@@ -209,7 +222,6 @@
     </div>
   </div>
 
-  <!-- Dots -->
   <div class="dots" id="dots"></div>
 </section>
 
@@ -279,14 +291,19 @@
         <img class="avatar" src="FotoDani.jpg" alt="Treinadora principal">
         <h3>Danielle Giacomini Lopes</h3>
         <p class="role">Treinadora • Referência técnica da equipe</p>
-        <p class="muted">Responsável pela metodologia da Sprint, com foco em evolução segura, técnica apurada e motivação contínua dos alunos.</p>
+        <p class="muted">Responsável pela metodologia da Sprint, com foco em evolução segura, técnica apurada e motivação contínua dos alunos.
+           Graduada em Educação Física Bacharelado pela PUCRS. Pós graduação em Treinamento Físico e Nutrição Esportiva pela Unisinos. 
+          Pós graduação em Fisiologia do Exercício pela Uniguaçu.
+        </p>
       </div>
 
       <div class="person">
         <img class="avatar" src="FotoAdelio.png" alt="Treinador assistente">
         <h3>Adélio dos Santos</h3>
         <p class="role">Treinador assistente • Atleta da equipe</p>
-        <p class="muted">Apoia os treinos presenciais e compartilha sua experiência como corredor de elite, trazendo energia e técnica para o grupo.</p>
+        <p class="muted">Apoia os treinos presenciais e compartilha sua experiência como corredor de elite, trazendo energia e técnica para o grupo.
+           Graduando em Educação Física
+          </p>
       </div>
     </div>
   </div>
@@ -384,4 +401,5 @@
 
 </body>
 </html>
+
 
