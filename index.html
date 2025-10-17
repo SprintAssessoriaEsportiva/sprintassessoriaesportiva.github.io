@@ -366,11 +366,47 @@
   // Menu mobile
   const burger = document.getElementById('burger');
   const menu = document.getElementById('menu');
-  if(burger && menu){
-    burger.addEventListener('click', ()=>{ menu.classList.toggle('show'); });
+
+  function isMobile() {
+    return window.matchMedia('(max-width: 820px)').matches;
   }
 
-  // === CARROSSEL (corrigido para passos de 100%) ===
+  function openMenu() {
+    menu.classList.add('show');
+    burger.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    menu.classList.remove('show');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+
+  if (burger && menu) {
+    // Toggle ao tocar no burger
+    burger.addEventListener('click', () => {
+      menu.classList.contains('show') ? closeMenu() : openMenu();
+    });
+
+    // Fechar ao clicar em QUALQUER link do menu (no mobile)
+    const navLinks = Array.from(menu.querySelectorAll('a'));
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (isMobile()) closeMenu();
+      });
+    });
+
+    // Fechar se a âncora mudar (extra segurança)
+    window.addEventListener('hashchange', () => {
+      if (isMobile()) closeMenu();
+    });
+
+    // Se a tela for redimensionada e sair do mobile, garanta consistência
+    window.addEventListener('resize', () => {
+      if (!isMobile()) closeMenu();
+    });
+  }
+
+  // === CARROSSEL (passos de 100%) ===
   const slides = document.getElementById('slides');
   const items = slides ? Array.from(slides.children) : [];
   const dotsWrap = document.getElementById('dots');
@@ -384,16 +420,17 @@
   });
   const dots = Array.from(document.querySelectorAll('.dot'));
 
-  // Removido cálculo de larguras; cada .slide já é 100%
   let i = 0;
-  function go(n){
+  function go(n) {
     i = (n + items.length) % items.length;
     slides.style.transform = `translateX(-${i * 100}%)`;
-    dots.forEach((d,idx)=> d.classList.toggle('active', idx===i));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
   }
   dots.forEach(d => d.addEventListener('click', e => go(parseInt(e.target.dataset.i, 10))));
-  if (items.length > 1) setInterval(()=> go(i+1), 6000);
+  if (items.length > 1) setInterval(() => go(i + 1), 6000);
 </script>
+
+
 
 </body>
 </html>
